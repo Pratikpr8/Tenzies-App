@@ -73,7 +73,7 @@ export default function App() {
       <div className="tenzies--container">
           <h1 className="tenzies--title">Tenzies</h1>
           <p className="tenzies--instruction">
-            Roll until all dices are same. Click each die to freeze at its
+            Roll until all dice are same. Click each die to freeze at its
             current value between rolls. Select all die with same value to win.
           </p>
 
