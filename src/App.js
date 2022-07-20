@@ -2,26 +2,30 @@ import React, { useEffect, useState } from "react";
 import "./css/app.css";
 import Die from "./components/Die";
 import { v4 as uuidv4 } from "uuid";
-import Confetti from 'react-confetti'
+import Confetti from "react-confetti";
 
 
 export default function App() {
   const [dice, setDice] = useState(randomNumbers());
-  const [tenzies,setTenzies] = useState(false)
+  const [tenzies, setTenzies] = useState(false);
+  const [click, setClick] = useState(0);
+
+
+  useEffect(() => {
+    setClick(prevClick => prevClick + 1);
+  }, [dice]);
 
 
 
-
-  useEffect(()=>{
-    const allHeld= dice.every(die => die.isHeld)
-    const singleValue = dice[0].value
-    const allValueSame = dice.every(die => die.value === singleValue) 
-      if(allHeld && allValueSame){
-        setTenzies(true)
-        console.log("You win")
-      }
-  },[dice])
-
+  useEffect(() => {
+    const allHeld = dice.every((die) => die.isHeld);
+    const singleValue = dice[0].value;
+    const allValueSame = dice.every((die) => die.value === singleValue);
+    if (allHeld && allValueSame) {
+      setTenzies(true);
+      console.log("You win");
+    }
+  }, [dice]);
 
 
   function randomNumbers() {
@@ -35,6 +39,7 @@ export default function App() {
     }
     return numbersArray;
   }
+
 
   const onRollDice = () => {
     const updatedDice = [...dice].map((die) => {
@@ -51,6 +56,7 @@ export default function App() {
     setDice(updatedDice);
   };
 
+
   const changeColorOnClickDie = (id) => {
     const updatedDice = [...dice].map((die) => {
       if (die.id === id) {
@@ -61,21 +67,21 @@ export default function App() {
     setDice(updatedDice);
   };
 
-
   const newGame = () => {
-    setTenzies(false)
-    setDice(randomNumbers())
-  }
+    setTenzies(false);
+    setDice(randomNumbers());
+  };
+
 
   return (
     <div>
-      {tenzies && <Confetti/>}
+      {tenzies && <Confetti />}
       <div className="tenzies--container">
-          <h1 className="tenzies--title">Tenzies</h1>
-          <p className="tenzies--instruction">
-            Roll until all dice are same. Click each die to freeze at its
-            current value between rolls. Select all die with same value to win.
-          </p>
+        <h1 className="tenzies--title">Tenzies</h1>
+        <p className="tenzies--instruction">
+          Roll until all dice are same. Click each die to freeze at its current
+          value between rolls. Select all die with same value to win.
+        </p>
 
         <div className="tenzies--grid">
           {dice.map((die) => {
@@ -90,22 +96,17 @@ export default function App() {
           })}
         </div>
 
-        {tenzies ? 
-        (
+        {tenzies ? (
           <button className="grid--button" onClick={newGame}>
-          New Game
-        </button>
-
-        ) : 
-        
-        (
+            New Game
+          </button>
+        ) : (
           <button className="grid--button" onClick={onRollDice}>
-          Roll Dice
-        </button>
+            Roll Dice
+          </button>
+        )}
 
-        )
-        }
-           
+        <p>Total Roll :<span>{click}</span></p>
       </div>
     </div>
   );

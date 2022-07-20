@@ -32,7 +32,8 @@ body{
     grid-template: auto auto / repeat(5,1fr);
     gap: 40px;
     margin-top: 30px;
-    margin-bottom: 20px;   
+    margin-bottom: 20px;  
+    max-width: 500px; 
 }
 
 .tenzies--title{
@@ -108,3 +109,10 @@ body{
     }
 }
 
+
+@media (max-width:500px){
+
+    .tenzies--grid{   
+        grid-template: auto auto / repeat(2, 1fr);
+    }
+}
