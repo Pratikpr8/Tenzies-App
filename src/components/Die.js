@@ -1,5 +1,4 @@
-import React from 'react'
-
+import React from 'react';
 export default function Die(props) {
 
 
@@ -7,7 +6,7 @@ export default function Die(props) {
     backgroundColor: props.isHeld ? "hsl(100,100%,40%)" : "hsl(0,0%,95%)"
   }
 
-
+  
   
 return(
   <div className='dice--look' 
@@ -15,6 +14,8 @@ return(
        onClick={props.onClick}
   >
       <h2>{props.value}</h2>
+      
   </div>
 )
 }
+

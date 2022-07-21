@@ -3,27 +3,32 @@ import "./css/app.css";
 import Die from "./components/Die";
 import { v4 as uuidv4 } from "uuid";
 import Confetti from "react-confetti";
+import Timer from './components/Timer'
+
+// // react icons
+// import { FaDiceOne } from "react-icons/fa";
+// import { FaDiceTwo } from "react-icons/fa";
+// import { FaDiceThree } from "react-icons/fa";
+// import { FaDiceFour } from "react-icons/fa";
+// import { FaDiceFive } from "react-icons/fa";
+// import { FaDiceSix } from "react-icons/fa";
+
 
 
 export default function App() {
+
   const [dice, setDice] = useState(randomNumbers());
   const [tenzies, setTenzies] = useState(false);
   const [click, setClick] = useState(0);
 
 
-  useEffect(() => {
-    setClick(prevClick => prevClick + 1);
-  }, [dice]);
-
-
-
+  
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
     const singleValue = dice[0].value;
     const allValueSame = dice.every((die) => die.value === singleValue);
     if (allHeld && allValueSame) {
       setTenzies(true);
-      console.log("You win");
     }
   }, [dice]);
 
@@ -54,6 +59,7 @@ export default function App() {
       }
     });
     setDice(updatedDice);
+    setClick(prevClick => prevClick + 1);
   };
 
 
@@ -69,12 +75,15 @@ export default function App() {
 
   const newGame = () => {
     setTenzies(false);
+    setClick(0)
     setDice(randomNumbers());
   };
 
 
+
   return (
     <div>
+      
       {tenzies && <Confetti />}
       <div className="tenzies--container">
         <h1 className="tenzies--title">Tenzies</h1>
@@ -96,6 +105,8 @@ export default function App() {
           })}
         </div>
 
+        {tenzies && <p className="tenzies--totRoll">You've won! You took {click} rolls.</p>}
+
         {tenzies ? (
           <button className="grid--button" onClick={newGame}>
             New Game
@@ -105,8 +116,10 @@ export default function App() {
             Roll Dice
           </button>
         )}
-
-        <p>Total Roll :<span>{click}</span></p>
+        <div className="rollNTime--container">
+        <p className="tenzies--totRoll">Total Roll :{click}</p>
+        <Timer />
+        </div>
       </div>
     </div>
   );
