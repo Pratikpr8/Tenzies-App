@@ -4,7 +4,7 @@ export default function Timer() {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
 
-  const [timer,setTimer]=useState({seconds:0,minutes:9})
+  // const [timer,setTimer]=useState({seconds:0,minutes:9})
 
 
   useEffect(() => {
