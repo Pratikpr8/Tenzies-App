@@ -110,10 +110,21 @@ body{
 .rollNTime--container{
     width: 350px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
+
+
+.die--images{
+
+    width: 50px;
+    height: 50px;
+}
+
+.maxWidth{
     
+max-width: 125px;
+}  
 
 
 @keyframes shake{
@@ -130,5 +141,9 @@ body{
 
     .tenzies--grid{   
         grid-template: auto auto / repeat(2, 1fr);
+    }
+
+    .rollNTime--container{
+        max-width: 300px;
     }
 }

@@ -5,22 +5,32 @@ import { v4 as uuidv4 } from "uuid";
 import Confetti from "react-confetti";
 import Timer from './components/Timer'
 
-// // react icons
-// import { FaDiceOne } from "react-icons/fa";
-// import { FaDiceTwo } from "react-icons/fa";
-// import { FaDiceThree } from "react-icons/fa";
-// import { FaDiceFour } from "react-icons/fa";
-// import { FaDiceFive } from "react-icons/fa";
-// import { FaDiceSix } from "react-icons/fa";
-
-
-
 export default function App() {
 
   const [dice, setDice] = useState(randomNumbers());
   const [tenzies, setTenzies] = useState(false);
   const [click, setClick] = useState(0);
+  const [time,setTime] = useState(0)
+  const [timerOn,setTimerOn] = useState(false)
 
+
+
+
+  useEffect(()=>{
+      let interval = null
+
+      if(timerOn){
+        interval = setInterval(()=>{
+            setTime(prevTime => prevTime + 10)
+        },10)
+      } else{
+        clearInterval(interval)
+      }
+      return function cleanup(){
+          clearInterval(interval)
+      }
+
+  },[timerOn])
 
   
   useEffect(() => {
@@ -29,6 +39,7 @@ export default function App() {
     const allValueSame = dice.every((die) => die.value === singleValue);
     if (allHeld && allValueSame) {
       setTenzies(true);
+      setTimerOn(false);
     }
   }, [dice]);
 
@@ -60,6 +71,7 @@ export default function App() {
     });
     setDice(updatedDice);
     setClick(prevClick => prevClick + 1);
+    setTimerOn(true);
   };
 
 
@@ -77,9 +89,8 @@ export default function App() {
     setTenzies(false);
     setClick(0)
     setDice(randomNumbers());
+    setTime(0);
   };
-
-
 
   return (
     <div>
@@ -105,7 +116,12 @@ export default function App() {
           })}
         </div>
 
-        {tenzies && <p className="tenzies--totRoll">You've won! You took {click} rolls.</p>}
+        {tenzies && <p className="tenzies--totRoll">You've won! You took {click} rolls and {
+                    <span>
+                    <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
+                    <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
+                    </span>
+          }s.</p>}
 
         {tenzies ? (
           <button className="grid--button" onClick={newGame}>
@@ -117,8 +133,10 @@ export default function App() {
           </button>
         )}
         <div className="rollNTime--container">
-        <p className="tenzies--totRoll">Total Roll :{click}</p>
-        <Timer />
+        <p className="tenzies--totRoll maxWidth">Total Roll: {click}</p>
+        <Timer 
+          time={time}
+        />
         </div>
       </div>
     </div>
